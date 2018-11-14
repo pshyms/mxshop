@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'DjangoUeditor',
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +138,21 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    ]
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+# 设置上传文件， 图片访问路径
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# REST分页功能
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     'PAGE_SIZE': 10,
+# }

@@ -25,7 +25,7 @@ class UserProfile(AbstractUser):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.username
+        return self.username  # 这里返回基类的username字段，如果返回name登陆后台会报字符串的错误
 
 
 class VerifyCode(models.Model):
