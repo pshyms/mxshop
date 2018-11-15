@@ -2,7 +2,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
@@ -72,15 +72,20 @@ class GoodsPagination(PageNumberPagination):
 #         return queryset
 
 
-# drf过滤方法2， 使用DjangoFilterBackend(精确到一个字段的过滤, 必须是精确匹配值进行过滤)
+# drf过滤方法2， 使用DjangoFilterBackend(精确到一个字段的过滤, 必须是精确匹配值进行过滤)，以及搜索和排序
 class GoodsListView(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('-add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # filter_fields = ('name', 'shop_price')
     filter_class = GoodsFilter
 
+    # 使用filters.SearchFilter进行搜索
+    search_fields = ('name', 'goods_brief', 'goods_desc')
+
+    # 使用filters.OrderingFilter设置排序
+    ordering_fields = ('sold_num', 'shop_price')
 
 
 

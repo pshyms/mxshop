@@ -25,7 +25,7 @@ from rest_framework.routers import DefaultRouter
 from goods.views import GoodsListView
 from mxshop.settings import MEDIA_ROOT
 
-# 使用viewsets完成商品列表的url配置
+# 只使用viewsets完成商品列表的url配置
 # goods_list = GoodsListView.as_view({
 #     'get': 'list',  # 将get请求绑定到list
 # })
@@ -48,6 +48,6 @@ urlpatterns = [
     re_path('^', include(router.urls)),
     # 生成drf自动化文档
     path('docs/', include_docs_urls(title='超市文档')),
-    # 配置登录的url
+    # 给rest_framework配置网页登录的url
     path('api-auth/', include('rest_framework.urls')),
 ]
