@@ -20,9 +20,11 @@ from django.views.static import serve
 import xadmin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 # from goods.views_base import GoodsListView
-from goods.views import GoodsListView
+from goods.views import GoodsListView, CategoryViewset
 from mxshop.settings import MEDIA_ROOT
 
 # 只使用viewsets完成商品列表的url配置
@@ -32,12 +34,23 @@ from mxshop.settings import MEDIA_ROOT
 
 # 使用viewsets和router完成商品列表页
 router = DefaultRouter()
+
 # 把goods注册到router中
 router.register(r'goods', GoodsListView, base_name="goods")
+
+# 配置Category的url
+router.register(r'categories', CategoryViewset, base_name="categories")
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('ueditor', include('DjangoUeditor.urls')),
+
+    # drf自带的token授权登录,获取token需要向该地址post数据
+    path('api-token-auth/', views.obtain_auth_token),
+
+    # jwt的token认证，前面的url路径可随意写
+    path('jwt-auth/', obtain_jwt_token),
+
     re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页

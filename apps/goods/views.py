@@ -5,10 +5,11 @@ from rest_framework import status
 from rest_framework import mixins, generics, filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Goods
-from .serializers import GoodsSerializer
+from .models import Goods, GoodsCategory
+from .serializers import GoodsSerializer, CategorySerializer
 from .filters import GoodsFilter
 
 # 实现商品列表页方法1
@@ -77,6 +78,10 @@ class GoodsListView(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('-add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
+
+    # 设置列表页的单独auth认证，因为商品列表是一个公开页，不需要不认证，所以正常情况下应该把这行注释掉
+    # authentication_classes = (TokenAuthentication,)
+
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # filter_fields = ('name', 'shop_price')
     filter_class = GoodsFilter
@@ -88,4 +93,13 @@ class GoodsListView(mixins.ListModelMixin, viewsets.GenericViewSet):
     ordering_fields = ('sold_num', 'shop_price')
 
 
+class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        商品分类列表数据
+    retrieve:
+        获取商品分类详情
+    """
+    queryset = GoodsCategory.objects.filter(category_type=1)  # 第一类商品类别数据
+    serializer_class = CategorySerializer
 
