@@ -20,7 +20,7 @@ sys.path.insert(0, BASE_DIR)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
-# 此处重载是为了使我们的UserProfile生效
+# 此处重载是为了使我们重新定义的user模型--UserProfile生效
 AUTH_USER_MODEL = "user.UserProfile"
 
 # Quick-start development settings - unsuitable for production
@@ -187,3 +187,9 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
+
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+# 云片网设置
+APIKEY = ''

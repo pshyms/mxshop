@@ -27,6 +27,9 @@ from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListView, CategoryViewset
 from mxshop.settings import MEDIA_ROOT
 
+from user.views import SmsCodeViewset, UserViewset
+
+
 # 只使用viewsets完成商品列表的url配置
 # goods_list = GoodsListView.as_view({
 #     'get': 'list',  # 将get请求绑定到list
@@ -35,11 +38,17 @@ from mxshop.settings import MEDIA_ROOT
 # 使用viewsets和router完成商品列表页
 router = DefaultRouter()
 
-# 把goods注册到router中
+# 把goods注册到router中, base_name给url命名，不然就按照模型里面默认定义
 router.register(r'goods', GoodsListView, base_name="goods")
 
 # 配置Category的url
 router.register(r'categories', CategoryViewset, base_name="categories")
+
+# 配置codes的url
+router.register(r'code', SmsCodeViewset, base_name="code"),
+
+# 配置users的url
+router.register(r'users', UserViewset, base_name="users")
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
