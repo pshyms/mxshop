@@ -1,7 +1,7 @@
 __author__ = 'Administrator'
 from rest_framework import serializers
 
-from goods.models import Goods, GoodsCategory
+from goods.models import Goods, GoodsCategory, GoodsImage
 
 
 # class GoodsSerializer(serializers.Serializer):
@@ -44,6 +44,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class GoodsSerializer(serializers.ModelSerializer):
     # 进行Serializer的嵌套使用。覆盖外键字段,引用了上面定义的CategorySerializer对象
     category = CategorySerializer()
+    # images必须和轮播图类中的外键参数related_name值一样
+    images = GoodsImageSerializer(many=True)
 
     class Meta:
         model = Goods
@@ -51,6 +53,11 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# 轮播图进行序列化，在轮播图model中有一个外键指向Goods
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ("image",)
 
 
 

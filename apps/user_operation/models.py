@@ -22,7 +22,7 @@ class UserFav(models.Model):
         unique_together = ("user", "goods")
 
     def __str__(self):
-        return self.user.username
+        return self.user.username  # 注意这里是username，如果写为name会报错，因为这个name可能为null
 
 
 class UserLeavingMessage(models.Model):

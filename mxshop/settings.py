@@ -172,7 +172,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 一般把JSONWebToken放在单独的view中，不设为全局配置
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
 }
 

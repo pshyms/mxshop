@@ -74,12 +74,12 @@ class GoodsPagination(PageNumberPagination):
 
 
 # drf过滤方法2， 使用DjangoFilterBackend(精确到一个字段的过滤, 必须是精确匹配值进行过滤)，以及搜索和排序
-class GoodsListView(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('-add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
 
-    # 设置列表页的单独auth认证，因为商品列表是一个公开页，不需要不认证，所以正常情况下应该把这行注释掉
+    # 设置列表页的单独auth认证，因为商品列表是一个公开页，不需要认证，所以正常情况下应该把这行注释掉
     # authentication_classes = (TokenAuthentication,)
 
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)

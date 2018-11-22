@@ -28,6 +28,7 @@ from goods.views import GoodsListView, CategoryViewset
 from mxshop.settings import MEDIA_ROOT
 
 from user.views import SmsCodeViewset, UserViewset
+from user_operation.views import UserFavViewset
 
 
 # 只使用viewsets完成商品列表的url配置
@@ -50,6 +51,9 @@ router.register(r'code', SmsCodeViewset, base_name="code"),
 # 配置users的url
 router.register(r'users', UserViewset, base_name="users")
 
+# 配置用户收藏的url
+router.register(r'userfavs', UserFavViewset, base_name="userfavs")
+
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('ueditor', include('DjangoUeditor.urls')),
@@ -68,8 +72,10 @@ urlpatterns = [
 
     # router的path路径
     re_path('^', include(router.urls)),
+
     # 生成drf自动化文档
     path('docs/', include_docs_urls(title='超市文档')),
+
     # 给rest_framework配置网页登录的url
     path('api-auth/', include('rest_framework.urls')),
 ]
